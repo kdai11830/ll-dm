@@ -1,0 +1,4 @@
+pandas
+openpyxl
+sqlite3
+boto3
