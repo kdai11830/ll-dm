@@ -142,7 +142,7 @@ class LLDM_Assistant:
                 print('Function calling...')
                 required_actions = run.required_action.submit_tool_outputs.model_dump()
                 tool_outputs = []
-                print(required_actions["tool_calls"])
+                # print(required_actions["tool_calls"])
                 for action in required_actions["tool_calls"]:
                     func_name = action['function']['name']
                     arguments = json.loads(action['function']['arguments'])
@@ -153,7 +153,7 @@ class LLDM_Assistant:
                     }
                     try:
                         function_to_call = available_functions[func_name]
-                        print(arguments)
+                        # print(arguments)
                         # function_args = json.loads(arguments)
                         # output = function_to_call(
                         #     item_name=function_args.get("item_name"),
@@ -163,7 +163,7 @@ class LLDM_Assistant:
                             **arguments
                         )
                         output_string = json.dumps(output)
-                        print(output_string)
+                        # print(output_string)
                         tool_outputs.append({
                             "tool_call_id": action['id'],
                             "output": output_string
@@ -195,10 +195,11 @@ class LLDM_Assistant:
                     thread_id=self.thread_narrator.id,
                     run_id=run.id,
                 )
-                if counter % 10 == 0:
-                    print('Waiting for assistant. Status:', run.status)
-                    counter += 1
-                    time.sleep(5)  
+                time.sleep(5)  
+                # if counter % 10 == 0:
+                #     # print('Waiting for assistant. Status:', run.status)
+                #     counter += 1
+                #     time.sleep(5)  
                 
             
         
@@ -214,6 +215,12 @@ class LLDM_Assistant:
                 chat_history_narrator.append({'content': item})
 
         return chat_history_narrator
+
+    def get_inventory_snapshot(self):
+        query = '''
+        SELECT * FROM CHARACTER_INVENTORY_DETAILS;
+        '''
+        return self.__run_query(query)
 
 
     def __create_db_from_file(self, excel_filename):
@@ -325,7 +332,7 @@ class LLDM_Assistant:
     # for now, use temporary campaign and character id
     def __get_obtained_item(self, item_name, quantity, campaign_id=0, character_id=0):
         item_id = self.__validate_item(item_name)
-        print(item_id, quantity)
+        # print(item_id, quantity)
         if item_id is not None:
             # TODO: error handling
             cursor = self.db.cursor()
@@ -371,8 +378,8 @@ class LLDM_Assistant:
     def __get_discarded_item(self, item_name, quantity, campaign_id=0, character_id=0):
         try:
             item_id = self.__validate_item_discard(item_name, quantity, campaign_id, character_id)
-            print(item_id, quantity)
-            cursor = db.cursor()
+            # print(item_id, quantity)
+            cursor = self.db.cursor()
             query = f'''
             UPDATE CHARACTER_INVENTORY SET Quantity = Quantity - {quantity}
             WHERE Item_ID = {item_id} AND Campaign_ID = {campaign_id} AND Character_ID = {character_id};
@@ -398,14 +405,44 @@ class LLDM_Assistant:
             else:
                 sql_query += ' AND '
             sql_query += f'Campaign_ID={campaign_id} AND Character_ID={character_id}'
-            print(sql_query)
+            # print(sql_query)
 
             df_result = self.__run_query(sql_query)
             result = json.dumps(df_result.to_dict())
-            print(result)
+            # print(result)
 
             self.__run_query('PRAGMA QUERY_ONLY = OFF;')
             return json.dumps({'message':f"The result of the user's request in JSON format is {result}. Please use this to answer the user's question or honor the user's request."})
         except Exception as e:
             self.__run_query('PRAGMA QUERY_ONLY = OFF;')
             return json.dumps({'message':"Something went wrong, please prompt the user for another action"})
+        
+
+# Main function, testing purposes
+if __name__ == '__main__':
+    excel_db_filename = 'DnD.xlsx'
+    with open('api_keys.yaml', 'r') as f:
+        api_keys = yaml.safe_load(f)
+
+    OPENAI_API_KEY = api_keys['openai-key']
+
+    lldm_assistant = LLDM_Assistant(OPENAI_API_KEY, excel_db_filename)
+
+    tmp = lldm_assistant.narrator_chat("I pick up the Shadow Lance of Storm.")
+
+    print('\n\nInitial query:',tmp[1]['content'].strip())
+    print('\n\nResponse:',tmp[0]['content'])
+
+    print(lldm_assistant.get_inventory_snapshot())
+
+    tmp = lldm_assistant.narrator_chat("I pick up the Forgotten Sword of Flame.")
+
+    print('\n\nInitial query:',tmp[1]['content'].strip())
+    print('\n\nResponse:',tmp[0]['content'])
+
+    print(lldm_assistant.get_inventory_snapshot())
+
+    tmp = lldm_assistant.narrator_chat("How many weapons do I have?")
+
+    print('\n\nInitial query:',tmp[1]['content'].strip())
+    print('\n\nResponse:',tmp[0]['content'])
