@@ -2,3 +2,5 @@ pandas
 openpyxl
 sqlite3
 boto3
+openai
+sqlglot

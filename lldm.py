@@ -5,6 +5,7 @@ from openai import OpenAI
 import sqlite3
 import pandas as pd
 import time
+import sqlglot
 
 class LLDM_Assistant:
 
@@ -13,20 +14,30 @@ class LLDM_Assistant:
     class ItemNotPossessedException(Exception):
         pass
 
-    def __init__(self, api_key, excel_db_filename):
+    def __init__(self, api_key, db_name, excel_db_filename=None):
         self.client = OpenAI(api_key=api_key)
-        self.db = self.__create_db_from_file(excel_db_filename)
+        if excel_db_filename:
+            self.db = self.__create_db_from_file(excel_db_filename, db_name)
+        else:
+            self.db = self.__connect_to_existing_db(db_name)
 
         get_info_func_desc = '''
-        Generate a SQL query to help extract the information that the user is asking for with regards to the items in their character's inventory. Use the following view to help generate the query:
+        Generate a SQL query to help extract the information that the user is asking for with regards to the items in their character's inventory, such as taking out or utilizing an item the character possesses. Use the following view to help generate the query, with the description of each column in between asterisks (*):
 
         CREATE TABLE IF NOT EXISTS CHARACTER_INVENTORY_DETAILS (
-            Quantity int,
             Weapon_Name text, 
-            Weapon_Description text
-        )
+            Weapon_Description text ,
+            Total_Quantity int    
+        );
 
-        Ignore the ID columns when generating the query.
+        CREATE TABLE IF NOT EXISTS CHARACTER_INVENTORY_HISTORY_DETAILS (
+            Weapon_Name text, 
+            Weapon_Description text,
+            Quantity int *A positive number represents obtained weapons, while a negative number means discarded*,
+            Modify_Time datetime
+        );
+
+        Make sure to only query columns that exist from each table. Do not switch column-table identities.
         Only return the SQL query without any preamble or post text, as well as without any quotes. Do not add a semicolon at the end of the query
         Only create SELECT queries and do not create any queries that will modify the table in any way.
         '''
@@ -43,13 +54,11 @@ class LLDM_Assistant:
 
                     The Dragon's Flagon (Tavern)
                 Description: The Dragon's Flagon is a lively tavern with a warm, welcoming atmosphere. The walls are adorned with trophies from past adventurers, and a large fireplace dominates one side of the room.
-                Events: Elara listens to stories and rumors from the locals. An old traveler tells her about an enchanted sword hidden in the Whispering Woods, said to be the key to defeating a monster terrorizing the region. Inspired, Elara gathers her gear and sets off on her quest.
+                
                     Whispering Woods (Wilderness)
                 Description: Whispering Woods is a foreboding forest with a canopy so thick it blocks out most of the sunlight. The air is filled with the sounds of unseen creatures, and the ground is covered with a thick layer of leaves.
-                Events: Elara encounters several obstacles, including treacherous terrain, hostile wildlife, and ancient traps. With her determination and combat skills, she overcomes these challenges and discovers the enchanted sword, which is hidden in a small, overgrown shrine deep within the woods.
-                    Blackstone Keep (Castle)
+                
                 Description: Blackstone Keep is a crumbling fortress with tall, dark towers and walls covered in ivy. Inside, it is dark and cold, with the air thick with the smell of decay.
-                Events: Elara enters the keep, navigating its eerie halls and chambers, all of which are eerily quiet. She finally reaches the grand hall where she confronts the monster: a fearsome dragon named Shadowflame. Using the enchanted sword, she engages in an epic battle with the dragon. After a fierce and climactic combat, Elara successfully slays the dragon, lifting the curse over the region and bringing peace to the land.
 
                 After receiving user response, you generate a narrative that moves the plot forward while maintaining a realistic continuity of events.
                 """,
@@ -222,17 +231,38 @@ class LLDM_Assistant:
         '''
         return self.__run_query(query)
 
+    # connect to db without erasing
+    # used for continuous web app
+    def __connect_to_existing_db(self, db_name):
+        try: 
+            db = sqlite3.connect(db_name) 
+            print("Database lldm.db connected.") 
+        except Exception as e: 
+            print("Database lldm.db not connected.")
+            print(repr(e))
+        
+        return db
 
-    def __create_db_from_file(self, excel_filename):
-        db_name = "lldm.db"
-        if os.path.exists(db_name):
-            os.remove(db_name)
+    # used to create fresh db
+    def __create_db_from_file(self, excel_filename, db_name):
         try: 
             db = sqlite3.connect(db_name) 
             print("Database lldm.db formed.") 
         except: 
             print("Database lldm.db not formed.")
 
+        # erase current db contents
+        cursor = db.cursor()
+        query = '''
+        PRAGMA writable_schema = 1;
+        DELETE FROM sqlite_master;
+        PRAGMA writable_schema = 0;
+        VACUUM;
+        PRAGMA integrity_check;
+        '''
+        cursor.executescript(query)
+
+        # create db from excel spreadsheet
         dfs = pd.read_excel(excel_filename, sheet_name=None)
         for table, df in dfs.items():
             try:
@@ -242,8 +272,9 @@ class LLDM_Assistant:
             except:
                 continue
 
-        cursor = self.db.cursor()
-        query = '''CREATE TABLE IF NOT EXISTS CAMPAIGN (
+        # modify columns
+        query = '''
+        CREATE TABLE IF NOT EXISTS CAMPAIGN (
             Campaign_ID INTEGER NOT NULL,
             Setting TEXT NOT NULL,
             Start_Time TEXT NOT NULL,
@@ -290,23 +321,39 @@ class LLDM_Assistant:
         ADD COLUMN Character_ID INTEGER;
 
         CREATE TABLE IF NOT EXISTS CHARACTER_INVENTORY (
-        Campaign_ID INTEGER NOT NULL,
-        Character_ID INTEGER NOT NULL,
-        Item_ID INTEGER NOT NULL,
-        Quantity FLOAT DEFAULT 0;
+            Campaign_ID INTEGER NOT NULL,
+            Character_ID INTEGER NOT NULL,
+            Item_ID INTEGER NOT NULL,
+            Total_Quantity FLOAT DEFAULT 0
+        );
+
+        CREATE TABLE IF NOT EXISTS CHARACTER_INVENTORY_HISTORY (
+            Campaign_ID INTEGER NOT NULL,
+            Character_ID INTEGER NOT NULL,
+            Item_ID INTEGER NOT NULL,
+            Quantity FLOAT DEFAULT 0,
+            Modify_Time DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
 
         CREATE VIEW IF NOT EXISTS CHARACTER_INVENTORY_DETAILS 
         AS
         SELECT
-            a.Campaign_ID, a.Character_ID, a.Item_ID, a.Quantity,
+            a.Campaign_ID, a.Character_ID, a.Item_ID, a.Total_Quantity,
             b.Weapon_Name, b.Weapon_Description
         FROM CHARACTER_INVENTORY a
+        JOIN WORLD_ITEMS b ON a.Item_ID = b.Item_ID;
+
+        CREATE VIEW IF NOT EXISTS CHARACTER_INVENTORY_HISTORY_DETAILS 
+        AS
+        SELECT
+            a.Campaign_ID, a.Character_ID, a.Item_ID, a.Quantity, a.Modify_Time,
+            b.Weapon_Name, b.Weapon_Description
+        FROM CHARACTER_INVENTORY_HISTORY a
         JOIN WORLD_ITEMS b ON a.Item_ID = b.Item_ID;
         '''
         cursor.executescript(query)
         db.commit()
-        self.db = db
-        return 
+        return db
         
 
     def __run_query(self, query):
@@ -332,20 +379,30 @@ class LLDM_Assistant:
     # for now, use temporary campaign and character id
     def __get_obtained_item(self, item_name, quantity, campaign_id=0, character_id=0):
         item_id = self.__validate_item(item_name)
-        # print(item_id, quantity)
+        print(item_id, quantity)
         if item_id is not None:
             # TODO: error handling
             cursor = self.db.cursor()
+
+            # overall character inventory tracker update
             query = f'''
-            UPDATE CHARACTER_INVENTORY SET Quantity = Quantity + {quantity}
+            UPDATE CHARACTER_INVENTORY SET Total_Quantity = Total_Quantity + {quantity}
             WHERE Item_ID = {item_id} AND Campaign_ID = {campaign_id} AND Character_ID = {character_id}
             '''
             cursor.execute(query)
+
             if cursor.rowcount == 0:
                 query = f'''
-                INSERT INTO CHARACTER_INVENTORY (Campaign_ID, Character_ID, Item_ID, Quantity) VALUES ({campaign_id}, {character_id}, {item_id}, {quantity})
+                INSERT INTO CHARACTER_INVENTORY (Campaign_ID, Character_ID, Item_ID, Total_Quantity) VALUES ({campaign_id}, {character_id}, {item_id}, {quantity})
                 '''
                 cursor.execute(query)
+
+            # inventory history update
+            query = f'''
+            INSERT INTO CHARACTER_INVENTORY_HISTORY (Campaign_ID, Character_ID, Item_ID, Quantity) VALUES ({campaign_id}, {character_id}, {item_id}, {quantity})
+            '''
+            cursor.execute(query)
+
             return json.dumps({'message':'The item(s) were successfully obtained. Please continue the story.'})
         else:
             return json.dumps({'message':'Item does not exist. Please prompt user to specify further or provide another action.'})
@@ -362,11 +419,11 @@ class LLDM_Assistant:
             # validate if character has item
             query = f'''
             SELECT * FROM CHARACTER_INVENTORY 
-            WHERE Campaign_ID = {campaign_id} AND Character_ID = {character_id} AND Item_ID = {item_id} AND Quantity >= {quantity}
+            WHERE Campaign_ID = {campaign_id} AND Character_ID = {character_id} AND Item_ID = {item_id} AND Total_Quantity >= {quantity}
             '''
             # there should theoretically only be one row of the item for each character with the quantity as different values
             # need to validate and put checks in place
-            tmp = self.__run_query(query)
+            tmp = self.run_query(query)
             if not tmp.empty:
                 return item_id
             raise self.ItemNotPossessedException("Character does not have the item in their inventory.")
@@ -378,17 +435,26 @@ class LLDM_Assistant:
     def __get_discarded_item(self, item_name, quantity, campaign_id=0, character_id=0):
         try:
             item_id = self.__validate_item_discard(item_name, quantity, campaign_id, character_id)
-            # print(item_id, quantity)
+            
             cursor = self.db.cursor()
+
+            # overall inventory tracker update
             query = f'''
-            UPDATE CHARACTER_INVENTORY SET Quantity = Quantity - {quantity}
+            UPDATE CHARACTER_INVENTORY SET Total_Quantity = Total_Quantity - {quantity}
             WHERE Item_ID = {item_id} AND Campaign_ID = {campaign_id} AND Character_ID = {character_id};
             '''
             cursor.execute(query)
 
             # housekeeping query, remove rows with invalid quantites (<= 0 items)
-            query = 'DELETE FROM CHARACTER_INVENTORY WHERE Quantity <= 0'
+            query = 'DELETE FROM CHARACTER_INVENTORY WHERE Total_Quantity <= 0'
             cursor.execute(query)
+
+            # inventory history tracker update
+            # use negative quantity value to indicate 
+            query = f'''
+            INSERT INTO CHARACTER_INVENTORY_HISTORY (Campaign_ID, Character_ID, Item_ID, Quantity) VALUES ({campaign_id}, {character_id}, {item_id}, {-quantity})
+            '''
+
             return json.dumps({'message':'The item(s) were successfully discarded. Please continue the story.'})
         except self.ItemNotPossessedException as e:
             return json.dumps({'message':"Item is not in character's possession. Please prompt user to specify further or provide another action."})
@@ -400,11 +466,10 @@ class LLDM_Assistant:
         self.__run_query('PRAGMA QUERY_ONLY = ON;')
         try:
             
-            if 'WHERE' not in sql_query:
-                sql_query += ' WHERE '
-            else:
-                sql_query += ' AND '
-            sql_query += f'Campaign_ID={campaign_id} AND Character_ID={character_id}'
+            # at some point in life, will figure out how to remove existing ID matching clauses before adding these
+            # but for now this will do
+            where = sqlglot.condition(f'Campaign_ID={campaign_id}').and_(f'Character_ID={character_id}')
+            sql_query = sqlglot.parse_one(sql_query).where(where).sql()
             # print(sql_query)
 
             df_result = self.__run_query(sql_query)
@@ -421,12 +486,13 @@ class LLDM_Assistant:
 # Main function, testing purposes
 if __name__ == '__main__':
     excel_db_filename = 'DnD.xlsx'
+    db_name = "lldm.db"
     with open('api_keys.yaml', 'r') as f:
         api_keys = yaml.safe_load(f)
 
     OPENAI_API_KEY = api_keys['openai-key']
 
-    lldm_assistant = LLDM_Assistant(OPENAI_API_KEY, excel_db_filename)
+    lldm_assistant = LLDM_Assistant(OPENAI_API_KEY, db_name, excel_db_filename=excel_db_filename)
 
     tmp = lldm_assistant.narrator_chat("I pick up the Shadow Lance of Storm.")
 
