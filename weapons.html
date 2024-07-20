@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DnD World Items</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #f2f2f2;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .button-container a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="button-container">
+            <a href="{{ url_for('index') }}">Return</a>
+        </div>
+        <h1>Available Weapons in This World</h1>
+        <table border="1" class="dataframe table table-striped">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Weapon Name</th>
+      <th>Weapon Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Legendary Wand of Assassin</td>
+      <td>The Legendary Wand of Assassin is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Lance of Knight</td>
+      <td>The Forgotten Lance of Knight is a lance known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this lance is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Cursed Armor of Warrior</td>
+      <td>The Cursed Armor of Warrior is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Divine Bow of Ranger</td>
+      <td>The Divine Bow of Ranger is a bow known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bow is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Cursed Armor of Storm</td>
+      <td>The Cursed Armor of Storm is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Axe of Warrior</td>
+      <td>The Ancient Axe of Warrior is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Axe of Ranger</td>
+      <td>The Mystic Axe of Ranger is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Wand of Frost</td>
+      <td>The Forgotten Wand of Frost is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Armor of Phoenix</td>
+      <td>The Ancient Armor of Phoenix is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Divine Ring of Frost</td>
+      <td>The Divine Ring of Frost is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Axe of Warrior</td>
+      <td>The Arcane Axe of Warrior is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Armor of Knight</td>
+      <td>The Shadow Armor of Knight is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of storm. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Cursed Sword of Ranger</td>
+      <td>The Cursed Sword of Ranger is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Glowing Sword of Warrior</td>
+      <td>The Glowing Sword of Warrior is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Ring of Mage</td>
+      <td>The Legendary Ring of Mage is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of warrior. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Armor of Knight</td>
+      <td>The Shadow Armor of Knight is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Bow of Flame</td>
+      <td>The Ancient Bow of Flame is a bow known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bow is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Divine Wand of Assassin</td>
+      <td>The Divine Wand of Assassin is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Glowing Axe of Storm</td>
+      <td>The Glowing Axe of Storm is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of warrior. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Armor of Ranger</td>
+      <td>The Shadow Armor of Ranger is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Divine Axe of Warrior</td>
+      <td>The Divine Axe of Warrior is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Helmet of Mage</td>
+      <td>The Forgotten Helmet of Mage is a helmet known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this helmet is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Ring of Frost</td>
+      <td>The Legendary Ring of Frost is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Bracelet of Frost</td>
+      <td>The Forgotten Bracelet of Frost is a bracelet known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bracelet is imbued with the essence of phoenix. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Ring of Flame</td>
+      <td>The Shadow Ring of Flame is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Sword of Ranger</td>
+      <td>The Legendary Sword of Ranger is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of assassin. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Sword of Warrior</td>
+      <td>The Shadow Sword of Warrior is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Armor of Assassin</td>
+      <td>The Legendary Armor of Assassin is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Shoes of Storm</td>
+      <td>The Ancient Shoes of Storm is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Wand of Flame</td>
+      <td>The Legendary Wand of Flame is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Shoes of Storm</td>
+      <td>The Shadow Shoes of Storm is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of phoenix. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Shoes of Storm</td>
+      <td>The Mystic Shoes of Storm is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Wand of Phoenix</td>
+      <td>The Ancient Wand of Phoenix is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of storm. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Divine Ring of Flame</td>
+      <td>The Divine Ring of Flame is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of warrior. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Ring of Knight</td>
+      <td>The Legendary Ring of Knight is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Enchanted Wand of Storm</td>
+      <td>The Enchanted Wand of Storm is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Enchanted Axe of Frost</td>
+      <td>The Enchanted Axe of Frost is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Ring of Mage</td>
+      <td>The Mystic Ring of Mage is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Shoes of Frost</td>
+      <td>The Mystic Shoes of Frost is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of storm. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Glowing Sword of Mage</td>
+      <td>The Glowing Sword of Mage is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Glowing Shoes of Ranger</td>
+      <td>The Glowing Shoes of Ranger is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Sword of Warrior</td>
+      <td>The Ancient Sword of Warrior is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Axe of Frost</td>
+      <td>The Shadow Axe of Frost is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Shoes of Assassin</td>
+      <td>The Arcane Shoes of Assassin is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Divine Bracelet of Ranger</td>
+      <td>The Divine Bracelet of Ranger is a bracelet known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bracelet is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Bow of Phoenix</td>
+      <td>The Ancient Bow of Phoenix is a bow known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bow is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Lance of Storm</td>
+      <td>The Forgotten Lance of Storm is a lance known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this lance is imbued with the essence of storm. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Shoes of Knight</td>
+      <td>The Shadow Shoes of Knight is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of phoenix. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Lance of Warrior</td>
+      <td>The Forgotten Lance of Warrior is a lance known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this lance is imbued with the essence of phoenix. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Armor of Mage</td>
+      <td>The Legendary Armor of Mage is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Bracelet of Assassin</td>
+      <td>The Forgotten Bracelet of Assassin is a bracelet known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bracelet is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Enchanted Sword of Storm</td>
+      <td>The Enchanted Sword of Storm is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Ring of Mage</td>
+      <td>The Mystic Ring of Mage is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Ring of Assassin</td>
+      <td>The Arcane Ring of Assassin is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of warrior. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Sword of Knight</td>
+      <td>The Ancient Sword of Knight is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of phoenix. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Helmet of Mage</td>
+      <td>The Forgotten Helmet of Mage is a helmet known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this helmet is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Axe of Flame</td>
+      <td>The Shadow Axe of Flame is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Sword of Frost</td>
+      <td>The Legendary Sword of Frost is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Sword of Knight</td>
+      <td>The Forgotten Sword of Knight is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of phoenix. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Cursed Ring of Assassin</td>
+      <td>The Cursed Ring of Assassin is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Cursed Ring of Mage</td>
+      <td>The Cursed Ring of Mage is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Belt of Storm</td>
+      <td>The Shadow Belt of Storm is a belt known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this belt is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Helmet of Ranger</td>
+      <td>The Legendary Helmet of Ranger is a helmet known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this helmet is imbued with the essence of warrior. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Enchanted Shoes of Ranger</td>
+      <td>The Enchanted Shoes of Ranger is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of assassin. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Ring of Flame</td>
+      <td>The Forgotten Ring of Flame is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of storm. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Enchanted Wand of Knight</td>
+      <td>The Enchanted Wand of Knight is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Armor of Frost</td>
+      <td>The Legendary Armor of Frost is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of storm. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Sword of Mage</td>
+      <td>The Mystic Sword of Mage is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Glowing Ring of Assassin</td>
+      <td>The Glowing Ring of Assassin is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Wand of Dragon</td>
+      <td>The Mystic Wand of Dragon is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Glowing Lance of Phoenix</td>
+      <td>The Glowing Lance of Phoenix is a lance known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this lance is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Ring of Knight</td>
+      <td>The Mystic Ring of Knight is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of phoenix. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Axe of Phoenix</td>
+      <td>The Mystic Axe of Phoenix is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Bow of Warrior</td>
+      <td>The Ancient Bow of Warrior is a bow known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bow is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Lance of Mage</td>
+      <td>The Mystic Lance of Mage is a lance known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this lance is imbued with the essence of phoenix. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Bracelet of Phoenix</td>
+      <td>The Arcane Bracelet of Phoenix is a bracelet known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bracelet is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Cursed Wand of Assassin</td>
+      <td>The Cursed Wand of Assassin is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Cursed Shoes of Dragon</td>
+      <td>The Cursed Shoes of Dragon is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Lance of Dragon</td>
+      <td>The Arcane Lance of Dragon is a lance known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this lance is imbued with the essence of assassin. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Glowing Axe of Ranger</td>
+      <td>The Glowing Axe of Ranger is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of assassin. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Wand of Knight</td>
+      <td>The Mystic Wand of Knight is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Shoes of Storm</td>
+      <td>The Forgotten Shoes of Storm is a shoes known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this shoes is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Armor of Storm</td>
+      <td>The Forgotten Armor of Storm is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of dragon. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Bow of Mage</td>
+      <td>The Arcane Bow of Mage is a bow known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bow is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Wand of Assassin</td>
+      <td>The Shadow Wand of Assassin is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Axe of Warrior</td>
+      <td>The Legendary Axe of Warrior is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Enchanted Axe of Dragon</td>
+      <td>The Enchanted Axe of Dragon is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of knight. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Belt of Frost</td>
+      <td>The Arcane Belt of Frost is a belt known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this belt is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Sword of Frost</td>
+      <td>The Mystic Sword of Frost is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Wand of Dragon</td>
+      <td>The Shadow Wand of Dragon is a wand known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this wand is imbued with the essence of ranger. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Ring of Frost</td>
+      <td>The Arcane Ring of Frost is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Ancient Bow of Ranger</td>
+      <td>The Ancient Bow of Ranger is a bow known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bow is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Legendary Bow of Flame</td>
+      <td>The Legendary Bow of Flame is a bow known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bow is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Enchanted Bow of Storm</td>
+      <td>The Enchanted Bow of Storm is a bow known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this bow is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Arcane Belt of Dragon</td>
+      <td>The Arcane Belt of Dragon is a belt known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this belt is imbued with the essence of storm. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Glowing Armor of Warrior</td>
+      <td>The Glowing Armor of Warrior is a armor known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this armor is imbued with the essence of warrior. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Divine Ring of Mage</td>
+      <td>The Divine Ring of Mage is a ring known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this ring is imbued with the essence of frost. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Shadow Lance of Storm</td>
+      <td>The Shadow Lance of Storm is a lance known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this lance is imbued with the essence of mage. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Forgotten Sword of Flame</td>
+      <td>The Forgotten Sword of Flame is a sword known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this sword is imbued with the essence of flame. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+    <tr>
+      <td>Mystic Axe of Phoenix</td>
+      <td>The Mystic Axe of Phoenix is a axe known throughout the realms for its incredible power. Forged in the fires of an ancient forge, this axe is imbued with the essence of warrior. It is said that those who wield it gain unmatched abilities, making them formidable in any battle.</td>
+    </tr>
+  </tbody>
+</table>
+<div class="button-container">
+    <a href="{{ url_for('index') }}">Return</a>
+</div>
+    </div>
+</body>
+</html>
