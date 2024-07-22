@@ -69,7 +69,7 @@ class LLDM_Assistant:
                     "type": "function",
                     "function": {
                         "name": "get_obtained_item",
-                        "description": "Extract the item that the user has obtained in some manner (such as picked up, purchased, etc.)",
+                        "description": "Extract the item that the user has obtained in some manner (such as picked up, purchased, etc.). This does not include utilizing an item that the user currently might have in their inventory.",
                         "parameters": {
                             "type": "object",
                             "properties": {
@@ -454,6 +454,7 @@ class LLDM_Assistant:
             query = f'''
             INSERT INTO CHARACTER_INVENTORY_HISTORY (Campaign_ID, Character_ID, Item_ID, Quantity) VALUES ({campaign_id}, {character_id}, {item_id}, {-quantity})
             '''
+            cursor.execute(query)
 
             return json.dumps({'message':'The item(s) were successfully discarded. Please continue the story.'})
         except self.ItemNotPossessedException as e:
