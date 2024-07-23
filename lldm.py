@@ -133,7 +133,7 @@ class LLDM_Assistant:
     def narrator_chat(self, content):
         message = self.client.beta.threads.messages.create(
             thread_id=self.thread_narrator.id,
-            role="assistant",
+            role="user",
             content=f"""
             {content}
             """,
@@ -221,7 +221,7 @@ class LLDM_Assistant:
                 role = thread_message.role
                 id = thread_message.assistant_id
                 item = content_item.text.value
-                chat_history_narrator.append({'content': item})
+                chat_history_narrator.append({'role': role, 'content': item})
 
         return chat_history_narrator
 
@@ -423,7 +423,7 @@ class LLDM_Assistant:
             '''
             # there should theoretically only be one row of the item for each character with the quantity as different values
             # need to validate and put checks in place
-            tmp = self.run_query(query)
+            tmp = self.__run_query(query)
             if not tmp.empty:
                 return item_id
             raise self.ItemNotPossessedException("Character does not have the item in their inventory.")
