@@ -1955,9 +1955,9 @@
 
 		ul.featured-icons li {
 			display: block;
-			float: left;
+			float: center;
 			text-align: center;
-			width: 50%;
+			width:100%;
 		}
 
 			ul.featured-icons li .icon {
