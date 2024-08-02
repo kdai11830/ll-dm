@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LL_DM Interface</title>
+    <script>
+        window.onload = function() {
+            var inputBox = document.getElementById('user_input');
+            inputBox.scrollIntoView();
+            inputBox.focus();
+        };
+        </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .main-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            flex: 3; /* Make this container take more space */
+            margin-right: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .story {
+            margin: 20px 0;
+            text-align: justify;
+            line-height: 1.6;
+        }
+        .chatbox {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .chatbox.user {
+            background-color: #e1f5fe;
+            text-align: right;
+        }
+        .chatbox.assistant {
+            background-color: #fff3e0;
+            text-align: left;
+        }
+        .form-container {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            width: 100%;
+        }
+        .form-container form {
+            display: inline-block;
+            width: 50%; /* Make the input form take 50% of the width */
+            margin-right: 10px; /* Add margin to the right of the form */
+        }
+        .form-container textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* Ensures padding and border are included in the width */
+            font-size: 16px;
+            resize: vertical; /* Allow vertical resizing */
+        }
+        .form-container button {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+        .sidebar {
+            flex: 1; /* Make this container take less space */
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            overflow: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-start;
+            margin: 10px 0;
+        }
+        .button-container button {
+            margin-right: 10px; /* Add space between the buttons */
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="container">
+            <h1>LLM4LLM</h1>
+            <div class="story">
+                <p>In the tranquil town of Windshade, nestled between rolling hills and verdant forests, life moved at a gentle pace. The Dragon's Flagon tavern stood at the heart of this bustling village, a place where stories were shared, and adventures began. The tavern's warm glow and lively atmosphere provided a sanctuary for weary travelers and eager adventurers alike.</p>
+                <p>Elara Windrider, a brave and determined adventurer, sat quietly at a corner table, listening intently to the tales of old. Trained by her father, a retired soldier, Elara had left her small village with a singular goal: to protect the innocent and uphold justice. Her heart yearned for a quest worthy of her skills and valor.</p>
+                <p>On this fateful evening, an old traveler with a weathered face and a knowing smile shared a tale that caught Elara's attention. He spoke of someone in the Whispering Woods, a mysterious forest to the north, who knew the secret to defeating a fearsome dragon named Shadowflame. The dragon had taken residence in the abandoned Blackstone Keep, casting a shadow of terror over the region.</p>
+                <p>Determined and inspired by the traveler's tale, Elara, despite having no gear or weapon, prepared herself and set off into the wilderness, ready to face the unknown and embrace her destiny. Now, she walks into the heart of the Whispering Woods, her journey already begun.</p>
+            </div>
+
+            <div id="chat-history">
+                {% if chat_history %}
+                    {% for message in chat_history %}
+                        <div class="chatbox {{ message.role }}">
+                            <p>{{ message.content }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-container">
+                <form method="post" id="myForm">
+                    <label for="user_input">What would you like to do, Elara?</label>
+                    <textarea id="user_input" name="user_input" rows="3" required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+                <div class="sidebar">
+                    <h2>Elara's Weapon Inventory</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Weapon Name</th>
+                                <th>Weapon Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in flask_text %}
+                                <tr>
+                                    <td>{{ row.Weapon_Name }}</td>
+                                    <td>{{ row.Weapon_Description }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="button-container">
+                <a href="{{ url_for('weapons') }}" target="_blank">
+                    <button>View all available weapons in this world</button>
+                </a>
+                <button onclick="window.location.href='/refresh_and_clear'">Refresh and Clear</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById("myForm").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+        }
+    });
+</script>
+</html>
