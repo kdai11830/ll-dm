@@ -22,9 +22,13 @@
 					<h1 id="logo"><a href="index.html">LLM4LLM</span></a></h1>
 					<nav id="nav">
 						<ul>
-							<li class="current"><a href="index.html">Home</a></li>
-							<li><a href="index.html">Section 1</a></li>
-							<li><a href="index.html">Section 2</a></li>
+							<li class="current"><a href="#">Home</a></li>
+							<li><a href="#introduction">Introduction</a></li>
+							<li><a href="#overview">Overview</a></li>
+							<li><a href="#components">Components</a></li>
+							<li><a href="#performance">Performance</a></li>
+							<li><a href="#applications">Applications</a></li>
+							<li><a href="#cta">Team</a></li>
 							<!-- <li class="submenu">
 								<a href="#">Layouts</a>
 								<ul>
@@ -81,9 +85,9 @@
 			<!-- Main -->
 				<article id="main">
 
-					<header class="special container">
-						<span class="icon fa-bar-chart-o"></span>
-						<h2>When it comes to long-term assistants, LLMs have some problems...</h2>
+					<header class="special container" id="introduction">
+						<span class="icon fa-group"></span>
+						<h2>When it comes to long-term AI assistants, LLMs have some problems...</h2>
 						<ul id="problem-statment-list">
 							<li>Token limits can lead to truncated context.</li>
 							<li>Information overload can muddy language understanding.</li>
@@ -93,10 +97,11 @@
 
 
 						</ul>
+						<p><strong>How can we augment conversations with LLMs to improve long-term memory while still maintaining the seamless experience of having a conversation that modern LLMs excel at?</strong></p>
 					</header>
 
 					<!-- One -->
-						<section class="wrapper style2 container special-alt">
+						<section class="wrapper style2 container special-alt" id="overview">
 							<div class="row 100%">
 								<div class="6u 12u(narrower)">
 
@@ -139,7 +144,7 @@
 						</section>
 
 					<!-- Two -->
-						<section class="wrapper style1 container special">
+						<section class="wrapper style1 container special" id="components">
 							<h2>How does it work?</h2>
 							<div class="row">
 								<div class="4u 12u(narrower)">
@@ -163,7 +168,7 @@
 									<section>
 										<span class="icon featured fa-database"></span>
 										<header>
-											<h3><!--[-->Storing Information<!--]--></h3>										</header>
+											<h3><!--[-->Information Storage<!--]--></h3>										</header>
 										<p>The LLM will parse the input for relevant information and, using the <a href="https://platform.openai.com/docs/guides/function-calling">function calling API</a>,
 											will insert, delete, or retrieve data from a structured database. 
 											<br>
@@ -178,7 +183,7 @@
 									<section>
 										<span class="icon featured fa-briefcase"></span>
 										<header>
-											<h3><!--[-->Retrieve Information<!--]--></h3>
+											<h3><!--[-->Information Retrieval<!--]--></h3>
 										</header>
 										<p>When asked, the LLM will query the data to fulfill any request requiring the stored data, regardless of how long ago initial data entry happened.
 											<br>
@@ -192,66 +197,41 @@
 						</section>
 
 					<!-- Three -->
-						<section class="wrapper style3 container special">
+						<section class="wrapper style3 container special" id="performance">
 
 							<header class="major">
 								<h2>How does <strong>LLM4LLM</strong> perform against <strong>base LLMs</strong>?</h2>
 							</header>
 
-							<p>We tested our methodology against a base LLM assistant over multiple rounds of obtaining and retrieving information on items throughout Elara's journey. 
-								To test each model's memory, we informed the models that Elara has picked up certain items and then at various time points, asked them three questions:</p>
-								<ul>
-									<li>1) Has the player picked up [item] before?</li>
-									<li>2) How many items has the player picked up so far?</li>
-									<li>3) What was the item the player just picked up?</li>
-								</ul>
-								<p>Our testing method consisted of a <b>simplistic memory test</b> (30 trials with each trial having an item pickup prompt followed by 3 generator story prompts) and a <b>complex memory test</b> (12 trials with each trial having 2 item pickup prompts and 2 story prompts).
-								<br><br>Let's see how the models performed!</p>
+							<p>We tested our methodology against a <b>ChatGPT 3.5-Turbo</b> over multiple rounds of obtaining and retrieving information on items throughout Elara's journey. 
+								To test each model's memory, we informed the models that Elara has picked up certain items and then at various time points, asked about the items that were in her inventory
+								
+								
+								<br><br>Let's see how LLM4LLM performs against a baseline LLM!</p>
+
+							<span class="icon featured fa-ellipsis-h"></span>
 
 							<div class="row">
 								<div class="6u 12u(narrower)">
 
 									<section>
-										<a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
 										<header>
-											<h3><!--[--><strong>Baseline:</strong> Short-term memory<!--]--></h3>
+											<h3><u><strong>Baseline Performance</strong></u></h3>
 										</header>
-										<p>Sed tristique purus vitae volutpat commodo suscipit amet sed nibh. Proin a ullamcorper sed blandit. Sed tristique purus vitae volutpat commodo suscipit ullamcorper sed blandit lorem ipsum dolore.</p>
+										<h1 style="font-size: 30px; color: red"><b>Accuracy = 63.5% <br>Recall = 27%</b></h1>
+										
+										<p>For our baseline model, we created a basic assistant without the LLM4LLM structured database augmentation. Through providing prompts for obtaining items and asking about the inventory in set intervals, we see that the baseline model really struggled to have consistent performance, with the majority of errors stemming from not "remembering" particular items were obtained.</p>
 									</section>
 
 								</div>
 								<div class="6u 12u(narrower)">
-
 									<section>
-										<a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
 										<header>
-											<h3><!--[-->An Airport Terminal<!--]--></h3>
+											<h3><u><strong>LLM4LLM Performance</strong></u></h3>
 										</header>
-										<p>Sed tristique purus vitae volutpat commodo suscipit amet sed nibh. Proin a ullamcorper sed blandit. Sed tristique purus vitae volutpat commodo suscipit ullamcorper sed blandit lorem ipsum dolore.</p>
-									</section>
-
-								</div>
-							</div>
-							<div class="row">
-								<div class="6u 12u(narrower)">
-
-									<section>
-										<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-										<header>
-											<h3><!--[-->Hyperspace Travel<!--]--></h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat commodo suscipit amet sed nibh. Proin a ullamcorper sed blandit. Sed tristique purus vitae volutpat commodo suscipit ullamcorper sed blandit lorem ipsum dolore.</p>
-									</section>
-
-								</div>
-								<div class="6u 12u(narrower)">
-
-									<section>
-										<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-										<header>
-											<h3><!--[-->And Another Train<!--]--></h3>
-										</header>
-										<p>Sed tristique purus vitae volutpat commodo suscipit amet sed nibh. Proin a ullamcorper sed blandit. Sed tristique purus vitae volutpat commodo suscipit ullamcorper sed blandit lorem ipsum dolore.</p>
+										<h1 style="font-size: 30px; color: green"><b>Accuracy = 98.75% <br>Recall = 99.38%</b></h1>
+										
+										<p>After augmenting the baseline assistant with LLM4LLM, we see that the performance <b>significantly</b> improves. By pulling the required information from the structured database, the LLM is able to consistently and accurately answer any questions about Elara's inventory at any point in time, with only scarce errors related to misunderstanding the question or hallucinating the initial prompts.</p>
 									</section>
 
 								</div>
@@ -259,7 +239,7 @@
 
 							<footer class="major">
 								<ul class="buttons">
-									<li><a href="#" class="button">See More</a></li>
+									<li><a href="https://github.com/kdai11830/ll-dm" class="button" target="_blank">Learn More on <span class="icon fa-github"></span></a></li>
 								</ul>
 							</footer>
 
@@ -267,32 +247,73 @@
 
 				</article>
 
+				<section class="wrapper style1 container special" id="applications">
+					<h2><strong>Beyond the Proof of Concept</strong></h2>
+					<p>
+					
+					IMany spaces and industries are adopting LLMs to push the boundaries of improvement and experience. Applications in the following fields can significantly benefit from the long-term memory offered by LLM4LLM:</p>
+					<ul id="problem-statment-list">
+						<li>Healthcare</li>
+						<li>Therapy and couseling</li>
+						<li>Education</li>
+						<li>Customer service</li>
+						<li>Gaming</li>
+						<li>...And any other services requiring long-term repeated interactions</li>
+					</ul>
+					
+					By seamlessly converting natural language to structured data, LLM4LLM offers a (theoretically) indefinite solution to finite LLM memory. Not only does database storage allow for easy modification and retrieval of near or distant historical information, but it can also open the possibilities of traditional data exploration, analysis, and modeling to data gathered from long-term interaction with an LLM assistant.
+					</p>
+				</section>
+
 			<!-- CTA -->
 				<section id="cta">
 
 					<header>
-						<h2><!--[-->Ready to do <strong>something</strong>?<!--]--></h2>
-						<p>Proin a ullamcorper elit, et sagittis turpis integer ut fermentum.</p>
+						<h2><!--[-->Meet The LLM4LLM Team!<!--]--></h2>
 					</header>
-					<footer>
-						<ul class="buttons">
-							<li><a href="#" class="button special"><!--[-->Take My Money<!--]--></a></li>
-							<li><a href="#" class="button"><!--[-->LOL Wut<!--]--></a></li>
-						</ul>
-					</footer>
+					<div class="row">
+						<div class="4u 12u(narrower)">
+							<section>
+								<a class="image featured"><img src="images/kevin_profile.jpg" alt="" /></a>
+								<header>
+									<h3><!--[-->Kevin Dai<!--]--></h3>
+								</header>
+								<a href="https://www.linkedin.com/in/kevin-dai-390279139/" target="_blank"><i class="fa fa-linkedin" style="font-size:36px"></i></a>
+								<a href="https://github.com/kdai11830" target="_blank" style="margin-left:10px"><i class="fa fa-github" style="font-size:36px"></i></a>
+							</section>
+						</div>
+						<div class="4u 12u(narrower)">
+							<section>
+								<a class="image featured"><img src="images/hsisheng_profile.png" alt="" /></a>
+								<header>
+									<h3><!--[-->Hsi-Sheng Wei<!--]--></h3>
+								</header>
+								
+								<a href="https://www.sw.ntpu.edu.tw/index.php?option=members&lang=cht&task=pageinfo&id=4&belongid=1&index=2" target="_blank"><i class="fa fa-graduation-cap" style="font-size:36px"></i></a>
+
+							</section>
+						</div>
+
+						<div class="4u 12u(narrower)">
+							<section>
+							
+								<a class="image featured"><img src="images/diqing_profile.jpg" alt="" /></a>
+								<header>
+									<h3><!--[-->Diqing Wu<!--]--></h3>
+								</header>
+								<a href="https://www.linkedin.com/in/diqing-wu-3232514a/" target="_blank"><i class="fa fa-linkedin" style="font-size:36px"></i></a>
+								
+							</section>
+						</div>
+					</div>
+					
 
 				</section>
+				
 
 			<!-- Footer -->
 				<footer id="footer">
 
-					<ul class="icons">
-						<li><a href="#" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon circle fa-google-plus"><span class="label">Google+</span></a></li>
-						<li><a href="#" class="icon circle fa-github"><span class="label">Github</span></a></li>
-						<li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li>
-					</ul>
 
 					<ul class="copyright">
 						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
